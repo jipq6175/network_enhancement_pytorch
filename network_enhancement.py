@@ -1,6 +1,6 @@
 
 
-# Network Enhancement implemeentation in pytorch
+# Network Enhancement implementation in pytorch
 # Author =  Yen @ ReviveMed 
 
 
@@ -10,14 +10,14 @@ import numpy as np
 # for stability
 EPS = 2e-16
 
-# DN Normallization Function: Correct
+# DN Normallization Function
 def DN(w, tp='ave'): 
 
     assert tp in ['ave', 'gph']
     assert w.shape[0] == w.shape[1]
     n = w.shape[0]
 
-    W = w.detach().clone() # not changing the original tensor
+    W = w.detach().clone()
     W *= n
     D = W.abs().sum(axis=1) + EPS
 
@@ -38,14 +38,14 @@ def DN(w, tp='ave'):
 
 
 
-# Transition fields: Correct
+# Transition fields
 # The output is doubly stochastic
 def TransitionFields(w): 
 
     assert w.shape[0] == w.shape[1]
     n = w.shape[0]
 
-    W = w.detach().clone() # not changing the original tensor
+    W = w.detach().clone()
     zero_index = torch.where(W.sum(axis=1) == 0.0)[0]
     W *= n
     W = DN(W, tp='ave')
@@ -63,7 +63,6 @@ def TransitionFields(w):
 
 
 # Dominate Set
-# This is the most error-prone function due to inconsistent index handling between matlab and python
 def DominateSet(maff, nr_knn):
 
     assert maff.shape[0] == maff.shape[1]
@@ -73,7 +72,7 @@ def DominateSet(maff, nr_knn):
     sorted_maff, indices = torch.sort(maff, dim=1, descending=True)
     res = sorted_maff[:, 0:nr_knn].t().contiguous().view(1, -1)
     
-    #  get the indeces for assignments
+    #  get the indices for assignments
     inds = torch.tensor(range(n)).repeat((1, nr_knn))
     loc = indices[:, 0:nr_knn].t().contiguous().view(1, -1)
     assert res.shape[1] == inds.shape[1] == loc.shape[1] == n * nr_knn
@@ -116,7 +115,6 @@ def NetworkEnhancement(w, order=2, K=20, alpha=0.9):
     
     P += torch.eye(n) + P.abs().sum(axis=0).diag_embed()
     P = TransitionFields(P)
-    # check points succeed so far
 
     lambdas, evectors = torch.linalg.eigh(P)
     d = lambdas - EPS
@@ -130,7 +128,6 @@ def NetworkEnhancement(w, order=2, K=20, alpha=0.9):
 
     D = torch.diag(DD).to_sparse()
     W = D.matmul(W)
-    # print(W)
 
     W[W < 0] = 0
     W = 0.5 * (W + W.t())
