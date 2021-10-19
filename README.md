@@ -40,3 +40,9 @@ Butterfly Similarity Networks
 ![hclust](./figures/hclust.png)
 
 ![nets](./figures/nets.png)
+
+
+Random Partition Graph
+--------
+
+![random](./figures/random.png)
