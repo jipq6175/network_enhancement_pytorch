@@ -1,7 +1,7 @@
 
 
 # Network Enhancement implementation in pytorch
-# Author =  Yen @ ReviveMed 
+# Author =  Yen
 
 
 import torch
