@@ -35,8 +35,8 @@ pipeline and can lead to improved downstream analysis.
 Butterfly Similarity Networks
 --------
 
-![Adj](https://github.com/jipq6175/network_enahncement_pytorch/figures/imshow.png)
+![Adj](./figures/imshow.png)
 
-![hclust](https://github.com/jipq6175/network_enahncement_pytorch/figure/hclust.png)
+![hclust](./figures/hclust.png)
 
-![nets](https://github.com/jipq6175/network_enahncement_pytorch/figure/nets.png)
+![nets](./figures/nets.png)
